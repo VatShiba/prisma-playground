@@ -1,5 +1,17 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-export async function seed() {
-  const prisma = new PrismaClient();
+const prisma = new PrismaClient()
+
+const main = async () => {
+  const accounts = await prisma.account.findMany({
+    where: {
+      isActive: true,
+    },
+  })
+
+  console.log('Premium accounts: ', accounts)
 }
+
+main()
+  .catch((e) => console.error('Error in Prisma Client query: ', e))
+  .finally(async () => await prisma.$disconnect())
